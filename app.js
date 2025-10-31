@@ -12,7 +12,7 @@ const Gameboard = (function() {
         ["[ ]", "[ ]", "[ ]"]
     ];
     return {
-        getBoard: () => board.forEach(row => console.log(row.join(''))),
+        getBoard: () => board,
         placeMarker: function(x, y, marker) {
             if (
                 x < 0 || x >= board.length ||
@@ -26,21 +26,101 @@ const Gameboard = (function() {
             }
         },
         isFull: () => board.every(row => row.every(cell => cell !== `[ ]`)),
-        isFull: () => board.flat().every(cell => cell !== `[ ]`),
         reset: () => board.forEach((row, r) => {
-            row.forEach((_, c) => {
-                board[r][c] = `[ ]`;
-            })
+            row.forEach((_, c) => board[r][c] = `[ ]`)
         }),
     }
 })();
 
-const GameController = (function() {
+const DisplayController = (function() {
     return {
-        playRound: (x, y) => {},
-        getCurrentPlayer: () => {},
-        switchTurn: () => {},
-        checkWinner: () => {},
-        resetGame: () => {}
+        renderBoard: (board) => console.log(board.map(row => row.join(' ')).join('\n')),
+        showMessage: (msg) => console.log(msg),
+        showTurn: (player) => console.log(`Turno de: ${player}.`),
+        handleResult: function(result, player) {
+            switch (result) {
+                case 'invalid':
+                    console.log('Movimiento invalido, intenta otra vez.');
+                    break;
+                case 'win':
+                    console.log(`${player} gana esta partida!`)
+                    break
+                case 'draw':
+                    console.log('Empate')
+                    break;
+                case 'next': 
+                    console.log(`Turno de ${player}`)
+                    break;
+            }
+        }
     }
 })();
+
+
+const player1 = createPlayer('Sebastian', 'S');
+const player2 = createPlayer('Hilary', 'H');
+
+const GameController = (function(p1, p2) {
+    let currentPlayer = p1;
+    return {
+        getCurrentPlayer: () => currentPlayer,
+        switchTurn: () => currentPlayer = currentPlayer === p1 ? p2 : p1,
+        playRound: function(x, y) {
+            if(!Gameboard.placeMarker(x, y, currentPlayer.getMarker())) return 'invalid'
+            if (this.checkWinner()) return 'win';
+            if (Gameboard.isFull()) return 'draw';
+
+            this.switchTurn();
+            return 'next'
+        },
+        checkWinner: () => {
+            const board = Gameboard.getBoard();
+            const winningCombos = [
+                // Rows
+                [[0, 0], [0, 1], [0, 2]],
+                [[1, 0], [1, 1], [1, 2]],
+                [[2, 0], [2, 1], [2, 2]],
+                // Colums
+                [[0, 0], [1, 0], [2, 0]],
+                [[0, 1], [1, 1], [2, 1]],
+                [[0, 2], [1, 2], [2, 2]],
+                // Diagonals
+                [[0, 0], [1, 1], [2, 2]],
+                [[0, 2], [1, 1], [2, 0]]
+            ];
+
+            return winningCombos.some(combo => 
+                combo.every(([x, y]) => board[x][y] === `[${currentPlayer.getMarker()}]`)
+            );
+        }, 
+        resetGame: () => {
+            Gameboard.reset();
+            currentPlayer = p1;
+        },
+        getCoordinates: () => {
+            const input = prompt(`${currentPlayer.getName()} ingrese sus coordenadas (formato: x, y):`);
+            return input.split(',').map(Number)
+        },
+        initializeGame: function() {
+            this.resetGame();
+            DisplayController.renderBoard(Gameboard.getBoard());
+        },
+        processTurn: function() {
+            const [x, y] = this.getCoordinates();
+            return this.playRound(x, y)
+        },
+        updateDisplay: function(result) {
+            console.clear();
+            DisplayController.renderBoard(Gameboard.getBoard());
+            DisplayController.handleResult(result, this.getCurrentPlayer.name())
+        },
+        isGameOver: (result) => ['win', 'draw'].includes(result),
+        startGame: function() {
+            this.initializeGame()
+            while (true) {
+                const result = this.processTurn();
+                if (this.isGameOver(result)) break;
+            }
+        }
+    }
+})(player1, player2);
