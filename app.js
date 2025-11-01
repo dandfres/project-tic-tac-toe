@@ -112,13 +112,14 @@ const GameController = (function(p1, p2) {
         updateDisplay: function(result) {
             console.clear();
             DisplayController.renderBoard(Gameboard.getBoard());
-            DisplayController.handleResult(result, this.getCurrentPlayer.name())
+            DisplayController.handleResult(result, this.getCurrentPlayer().getName())
         },
         isGameOver: (result) => ['win', 'draw'].includes(result),
         startGame: function() {
             this.initializeGame()
             while (true) {
                 const result = this.processTurn();
+                this.updateDisplay(result)
                 if (this.isGameOver(result)) break;
             }
         }
