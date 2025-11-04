@@ -17,8 +17,8 @@ const Gameboard = (function() {
             if (
                 x < 0 || x >= board.length ||
                 y < 0 || y >= board.length ||
-                board[x][y] !== `[ ]`
-                ) {
+                Number.isNaN(x) || Number.isNaN(y) ||
+                board[x][y] !== `[ ]`) {
                 return false;
             } else {
                 board[x][y] = `[${marker}]`;
@@ -57,8 +57,8 @@ const DisplayController = (function() {
 })();
 
 
-const player1 = createPlayer('Sebastian', 'S');
-const player2 = createPlayer('Hilary', 'H');
+const player1 = createPlayer('Sebastian', 'X');
+const player2 = createPlayer('Hilary', 'O');
 
 const GameController = (function(p1, p2) {
     let currentPlayer = p1;
@@ -106,7 +106,9 @@ const GameController = (function(p1, p2) {
             DisplayController.renderBoard(Gameboard.getBoard());
         },
         processTurn: function() {
-            const [x, y] = this.getCoordinates();
+            const coords = this.getCoordinates();
+            if (coords.length !== 2) return 
+            const [x, y] = coords;
             return this.playRound(x, y)
         },
         updateDisplay: function(result) {
