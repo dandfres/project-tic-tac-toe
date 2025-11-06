@@ -1,0 +1,85 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: hsl(0, 0%, 20%);
+    background-color: hsl(0, 0%, 90%);
+    font-family: sans-serif;
+}
+
+header {
+    text-align: center;
+    padding-block: 5rem;
+}
+
+h1 {
+    font-size: 5rem;
+}
+
+main {
+    width: 30%;
+    margin-inline: auto;
+    /* border: solid; */
+    display: flex;
+    
+}
+
+section {
+    flex: 1;
+    padding: 4rem;
+    /* border: solid; */
+}
+
+section.setup {
+    display: none;
+}
+
+.floating-label {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.floating-label input {
+    width: 100%;
+    padding: 1rem .5rem .5rem;
+    font-size: 1rem;
+    border: 1px solid hsl(0, 0%, 20%);
+    border-radius: 4px;
+    background: none
+}
+
+.floating-label label {
+    position: absolute;
+    top: 1rem;
+    left: .5rem;
+    color: #888;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: .2s ease all;
+}
+
+.floating-label input:focus + label,
+.floating-label input:not(:placeholder-shown) + label {
+    top: -.5rem;
+    font-size: .8rem;
+    background-color: hsl(0, 0%, 90%);
+    padding: 0 .25rem;
+}
+
+.game .board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background-color: hsl(0, 0%, 20%);
+    padding: 2px;
+}
+
+.cell {
+    aspect-ratio: 1;
+    background-color: hsl(0, 0%, 90%);
+}
