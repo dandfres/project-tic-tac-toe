@@ -9,7 +9,7 @@ body {
     flex-direction: column;
     color: hsl(0, 0%, 20%);
     background-color: hsl(0, 0%, 90%);
-    font-family: sans-serif;
+    font-family: 'Inter';
 }
 
 header {
@@ -21,22 +21,14 @@ h1 {
     font-size: 5rem;
 }
 
-main {
-    width: 30%;
+/* esto sera un modal proximamente */
+
+
+section.game {
+    position: relative;
+    padding: 5rem;
+    width: 600px;
     margin-inline: auto;
-    /* border: solid; */
-    display: flex;
-    
-}
-
-section {
-    flex: 1;
-    padding: 4rem;
-    /* border: solid; */
-}
-
-section.setup {
-    display: none;
 }
 
 .floating-label {
@@ -48,7 +40,7 @@ section.setup {
     width: 100%;
     padding: 1rem .5rem .5rem;
     font-size: 1rem;
-    border: 1px solid hsl(0, 0%, 20%);
+    border: 1px solid hsla(0, 0%, 20%, 0);
     border-radius: 4px;
     background: none
 }
@@ -71,15 +63,60 @@ section.setup {
     padding: 0 .25rem;
 }
 
-.game .board {
+.status {
+    color: hsl(0, 0%, 30%);
+    position: absolute;
+    font-weight: 500;
+    inset-inline: 0;
+    top: -1rem;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.status[data-game-status='in-game'] {
+    display: none;
+}
+
+.btn {
+    display: inline;
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    inset: 220px;
+    transition: all ease .2s;
+    z-index: 10;
+}
+
+.btn:hover {
+    opacity: .85;
+}
+
+.btn:active {
+    transform: scale(.95);
+    opacity: 1;
+}
+
+.board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
     background-color: hsl(0, 0%, 20%);
-    padding: 2px;
+    padding: 4px;
+}
+
+.board.inactive {
+    pointer-events: none;
+    opacity: .5;
+    cursor: not-allowed;
 }
 
 .cell {
     aspect-ratio: 1;
-    background-color: hsl(0, 0%, 90%);
+    background-color: hsla(0, 0%, 100%, 0.99);
+    color: hsl(0, 0%, 20%);
+    display: grid;
+    place-items: center;
+    font-size: 5rem;
+    cursor: pointer;
 }

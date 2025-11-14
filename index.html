@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project: Tic Tac Toe</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -12,27 +14,10 @@
     </header>
     
     <main>
-        <!-- configuracion de jugadores -->
-        <section class="setup">
-            <form id="setup-form">
-                <!-- jugaror 1 -->
-                <div class="floating-label">
-                    <input type="text" placeholder=" " id="player1Name">
-                    <label for="player1Name">Player1</label>
-                </div>
-                <!-- jugaror 2 -->
-                <div class="floating-label">
-                    <input type="text" placeholder=" " id="player2Name">
-                    <label for="player2Name">Player2</label>
-                </div>
-                <button id="startBtn">Start Game</button>
-            </form>
-        </section>
-
-        <section class="game">
-            <div class="status"></div>
+        <section class="game" id="game-section">
+            <div class="status" data-game-status="initial">Press the button to begin</div>
             <!-- tablero -->
-            <div class="board">
+            <div class="board inactive">
                 <div class="cell" data-index="0"></div>
                 <div class="cell" data-index="1"></div>
                 <div class="cell" data-index="2"></div>
@@ -43,9 +28,13 @@
                 <div class="cell" data-index="7"></div>
                 <div class="cell" data-index="8"></div>
             </div>
+            <!-- boton para iniciar -->
+            <button id="play-btn" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M187.2 100.9C174.8 94.1 159.8 94.4 147.6 101.6C135.4 108.8 128 121.9 128 136L128 504C128 518.1 135.5 531.2 147.6 538.4C159.7 545.6 174.8 545.9 187.2 539.1L523.2 355.1C536 348.1 544 334.6 544 320C544 305.4 536 291.9 523.2 284.9L187.2 100.9z"/></svg>
+            </button>
         </section>
     </main>
-    <!-- <script src="./app.js"></script> -->
-    <script src="./app.js"></script>
+
+    <script type="module" src="./js/index.js"></script>
 </body>
 </html>
